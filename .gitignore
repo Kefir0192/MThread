@@ -41,6 +41,7 @@
 *.creator.user
 *.files
 *.includes
+*.bat
 
 
 
