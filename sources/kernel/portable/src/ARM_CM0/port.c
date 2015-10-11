@@ -37,7 +37,7 @@ void port_Start_Schedule(uint32_t* pStack)
     // Указатель на стек
     __set_PSP((uint32_t)pStack);
 
-    SysTick_Config(8000);
+    SysTick_Config(72000);
     NVIC_SetPriority(PendSV_IRQn, 0xff);
     NVIC_SetPriority(SysTick_IRQn, 0xff);
 }

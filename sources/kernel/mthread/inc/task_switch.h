@@ -1,7 +1,7 @@
 #ifndef TASK_SWITCH
 #define TASK_SWITCH
 
-
+#define  COUNT_ELEMENTS(array) (sizeof(array) / sizeof(array[0]))
 
 // Возвращает следующую задачу
 //------------------------------------------------------

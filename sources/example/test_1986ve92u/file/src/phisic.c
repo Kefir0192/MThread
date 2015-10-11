@@ -47,6 +47,10 @@ void Port_Init(void)
     MDR_PORTE->OE			|= BIT7;                // 1 – выход
     MDR_PORTE->ANALOG		|= BIT7;                // 1 – цифровой
     MDR_PORTE->RXTX         |= BIT7;                // Данные для выдачи на выводы порта
+
+    MDR_PORTC->OE			|= BIT1;                // 1 – выход
+    MDR_PORTC->ANALOG		|= BIT1;                // 1 – цифровой
+    MDR_PORTC->RXTX         |= BIT1;                // Данные для выдачи на выводы порта
 }
 
 /*

@@ -39,27 +39,40 @@ void Init_Hardware(void)
 
 uint32_t stack_a[64];
 uint32_t stack_b[64];
+uint32_t stack_c[64];
 
-uint32_t vA = 5, vB;
+uint32_t vA = 5, vB, vC;
 mmutex *MutexA = NULL;
 
 void Thread_A(void *pVoid)
 {
     while(1) {
-        Delay(0x80000);
+        //Delay(0x40000);
         MDR_PORTE->RXTX ^= BIT6;
     }
 }
 
+
+
 void Thread_B(void *pVoid)
 {
     while(1) {
-        Delay(0x40000);
-        MDR_PORTE->RXTX ^= BIT7;
+        //Delay(0x40000);
+        //MDR_PORTE->RXTX ^= BIT7;
+        __ASM("nop");
     }
 }
 
 
+
+void Thread_C(void *pVoid)
+{
+    while(1) {
+        //Delay(0x40000);
+        //MDR_PORTE->RXTX ^= BIT7;
+        MDR_PORTE->RXTX ^= BIT7;
+    }
+}
 
 //------------------------------------------------------
 // MAIN
@@ -72,11 +85,9 @@ int main(void)
     NVIC_SetPriority(PendSV_IRQn, 0xff);
     NVIC_SetPriority(SysTick_IRQn, 0xff);
 
-    uint8_t current_min_priority = 0;
-    uint8_t current_priority = 0;
-
-    eTask_Create(&eTask_Element[0], Thread_A, &stack_a[63], 64, &vA);
-    eTask_Create(&eTask_Element[1], Thread_B, &stack_b[63], 64, &vB);
+    eTask_Create(&eTask_Element[0], Thread_A, &stack_a[63], 64, &vA, 0);
+    eTask_Create(&eTask_Element[1], Thread_B, &stack_b[63], 64, &vB, 1);
+    eTask_Create(&eTask_Element[2], Thread_C, &stack_c[63], 64, &vC, 1);
 
     eStart_Schedule();
 

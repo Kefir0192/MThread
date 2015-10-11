@@ -2,7 +2,7 @@
 #define MTHREAD_CONFIG
 
 /// Всего задач
-#define VALUE_TASKS             2
+#define VALUE_TASKS             3
 /// Минимальный размер стека в словах (слово - 4 байта)
 #define MINIMUM_SIZE_STACK_WORD 16
 
@@ -52,7 +52,7 @@ extern struct Task_Status sTask_Status;
 // Size_Stack       Размера стека в словах      type -> uint32_t
 // pParameters      Аргумент потока             type -> void *
 //------------------------------------------------------
-void eTask_Create(struct Task_Element *pTask_Element, void (*pTack)(void *pVoid), uint32_t *pStack, uint32_t Size_Stack, void *pParameters);
+void eTask_Create(struct Task_Element *pTask_Element, void (*pTack)(void *pVoid), uint32_t *pStack, uint32_t Size_Stack, void *pParameters, uint8_t priority);
 // Выбирает задачу, затем вызывает переключение контекста
 //------------------------------------------------------
 void sTask_Schedule(void);
