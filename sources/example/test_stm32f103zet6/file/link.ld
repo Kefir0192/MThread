@@ -25,7 +25,7 @@ SECTIONS
         _start_isr_vector = .;
         KEEP(*(.isr_vector))
         _end_isr_vector = .;
-        . = 0xc8 - _end_isr_vector + ALIGN(4);
+        . = . + 0x80;
         KEEP(*(.loop))
     } > FLASH = 0xff
 
@@ -69,3 +69,4 @@ _size_bss = SIZEOF(.bss);
 _start_rodata_copi = _end_text;
 _start_data_copi = _end_text + _size_rodata;
 _start_bss_copi = _end_text + _size_rodata + _size_data;
+

@@ -23,7 +23,7 @@ struct Task_Status sTask_Status;
 void eTask_Create(struct Task_Element *pTask_Element, void (*pTack)(void *pVoid), uint32_t *pStack, uint32_t Size_Stack, void *pParameters, uint8_t priority)
 {
     // Проверка указателей и минимального размера стека
-    if(!pTask_Element && !pTack && !pStack && (Size_Stack >= MINIMUM_SIZE_STACK_WORD)) return;
+    if(!pTask_Element && !pTack && !pStack && (Size_Stack >= PORT_MINIMUM_SIZE_STACK_WORD)) return;
 
     // Инициализация задачи
     pTask_Element->Size_Stack = Size_Stack;
@@ -42,8 +42,8 @@ void eTask_Create(struct Task_Element *pTask_Element, void (*pTack)(void *pVoid)
 //------------------------------------------------------
 void sTask_Schedule(void)
 {
-    // Начало критической секции обеспечивающая атомарность
-    port_Start_Critical_Section_Mutex();
+    // Сброс системного таймера
+    port_Reset_SysTick();
 
     // Выбираем текущий поток
     sTask_Status.Task_Current = sTask_Status.Task_Next;
@@ -58,9 +58,6 @@ void sTask_Schedule(void)
     // Копируем дескриптор потока
     sTask_Status.pTask_Descriptor = eTask_Element[sTask_Status.Task_Next].pTask_Descriptor;
 
-    // Конец критической секции обеспечивающая атомарность
-    port_End_Critical_Section_Mutex();
-
     // Программное прерывание Schedule
     port_Inquiry_Interruption();
 }
@@ -74,8 +71,8 @@ void eStart_Schedule(void)
     sTask_Status.Task_Current = 0;
     sTask_Status.Task_Next = 0;
 
-    // Выбирает задачу, затем вызывает переключение контекста
-    sTask_Switch();
+    // Выбираем задачу
+    sTask_Status.Task_Next = sTask_Switch();
     // Текущая задача
     sTask_Status.Task_Current = sTask_Status.Task_Next;
     // Указатель на переменную в которую нужно сохранить текущие положение стека
@@ -85,5 +82,5 @@ void eStart_Schedule(void)
     // Копируем дескриптор потока
     sTask_Status.pTask_Descriptor = eTask_Element[sTask_Status.Task_Next].pTask_Descriptor;
     // Запустить шедулер
-    port_Start_Schedule(eTask_Element[sTask_Status.Task_Current].pStack_pointer + 8);
+    port_Start_Schedule(eTask_Element[sTask_Status.Task_Current].pStack_pointer);
 }

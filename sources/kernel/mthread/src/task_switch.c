@@ -32,9 +32,9 @@ uint8_t get_index(int priority)
 //------------------------------------------------------
 uint8_t sTask_Switch(void)
 {
-//    static uint8_t c = 0;
-//    c ^= BIT0;
-//    return c;
+    static uint8_t c = 0;
+    c ^= BIT0;
+    return c;
 
 
     static int i     = 0,

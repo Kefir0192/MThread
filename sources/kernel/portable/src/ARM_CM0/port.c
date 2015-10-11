@@ -19,7 +19,7 @@ uint32_t* port_Initialise_Stack(void (*pTack)(void *pVoid), uint32_t *pStack, ui
     // Инициализация стека задачи
     pStack[-7] = (uint32_t)pParameters;
     // Инициализация регистра -> LR
-    pStack[-2] = (uint32_t)pTack;
+    pStack[-2] = 0xFFFFFFFE;
     // Инициализация регистра -> PC
     pStack[-1] = (uint32_t)pTack;
     // Инициализация регистра -> PSR
@@ -35,11 +35,11 @@ uint32_t* port_Initialise_Stack(void (*pTack)(void *pVoid), uint32_t *pStack, ui
 void port_Start_Schedule(uint32_t* pStack)
 {
     // Указатель на стек
-    __set_PSP((uint32_t)pStack);
+    __set_PSP((uint32_t)(pStack + 8));
 
-    SysTick_Config(72000);
-    NVIC_SetPriority(PendSV_IRQn, 0xff);
+    SysTick_Config(PORT_DIVIDER_SYSTEM_TIMER);
     NVIC_SetPriority(SysTick_IRQn, 0xff);
+    NVIC_SetPriority(PendSV_IRQn, 0xff);
 }
 
 //------------------------------------------------------
@@ -49,6 +49,14 @@ inline void port_Inquiry_Interruption(void)
 {
     // Start interrapt
     SCB->ICSR |= BIT28;
+}
+
+// Сброс системного таймера
+//------------------------------------------------------
+void port_Reset_SysTick(void)
+{
+    // Сброс системного таймера
+    SysTick->VAL   = 0;
 }
 
 //------------------------------------------------------

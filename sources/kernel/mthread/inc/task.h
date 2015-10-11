@@ -2,9 +2,7 @@
 #define MTHREAD_CONFIG
 
 /// Всего задач
-#define VALUE_TASKS             3
-/// Минимальный размер стека в словах (слово - 4 байта)
-#define MINIMUM_SIZE_STACK_WORD 16
+#define VALUE_TASKS             2
 
 /// Указатель на переменную в которую нужно сохранить текущие положение стека
 extern uint32_t **pPointer_Save_Context_Stask;
