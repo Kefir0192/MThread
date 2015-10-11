@@ -9,8 +9,8 @@
 
 struct Mmutex MutexA;
 
-uint32_t stack_a[64];
-uint32_t stack_b[64];
+uint32_t stack_a[128];
+uint32_t stack_b[128];
 
 uint32_t vA = 5, vB;
 

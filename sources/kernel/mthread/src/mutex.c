@@ -29,7 +29,7 @@ void eMutex_lock(struct Mmutex *pMmutex)
             if(pMmutex->Inquiry == NULL) {
                 // Блокируем мьютекс
                 // Ресурс успешно занят
-                pMmutex->lock = sTask_Status.pTask_Descriptor;
+                PORT_ATOMIC_SAVE(pMmutex->lock, sTask_Status.pTask_Descriptor);
                 goto exit_critical;
             }
             pMmutex->Inquiry = NULL;
@@ -69,7 +69,7 @@ uint8_t eMutex_try_lock(struct Mmutex *pMmutex)
         if(pMmutex->Inquiry == NULL) {
             // Блокируем мьютекс
             // Ресурс успешно занят
-            pMmutex->lock = sTask_Status.pTask_Descriptor;
+            PORT_ATOMIC_SAVE(pMmutex->lock, sTask_Status.pTask_Descriptor);
             goto exit_critical_true;
         }
         pMmutex->Inquiry = NULL;

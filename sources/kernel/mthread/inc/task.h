@@ -1,8 +1,12 @@
 #ifndef MTHREAD_CONFIG
 #define MTHREAD_CONFIG
 
+
+/// The count of elements in the array.
+#define COUNT_ELEMENTS(array) (sizeof(array) / sizeof(array[0]))
+
 /// Всего задач
-#define VALUE_TASKS             2
+#define COUNT_ELEMENTS_TASKS    2
 
 /// Указатель на переменную в которую нужно сохранить текущие положение стека
 extern uint32_t **pPointer_Save_Context_Stask;
@@ -38,7 +42,7 @@ struct Task_Status {
 };
 
 /// Массив структур для каждой задачи
-extern struct Task_Element eTask_Element[VALUE_TASKS];
+extern struct Task_Element eTask_Element[COUNT_ELEMENTS_TASKS];
 /// Статусная структура всех задач
 extern struct Task_Status sTask_Status;
 

@@ -12,7 +12,7 @@ uint8_t get_index(int priority)
     int i;
 
 
-    for(i = last_index[priority]; i < VALUE_TASKS; i++)
+    for(i = last_index[priority]; i < COUNT_ELEMENTS_TASKS; i++)
     {
         if(eTask_Element[i].Current_priority == priority)
         {
@@ -45,7 +45,7 @@ uint8_t sTask_Switch(void)
     while(1)
     {
 
-        for( ; i < VALUE_TASKS; )
+        for( ; i < COUNT_ELEMENTS_TASKS; )
         {
 
             if(eTask_Element[i].Current_priority == 0)
@@ -70,7 +70,7 @@ uint8_t sTask_Switch(void)
 
             if( j == current_pr)
                 current_pr++;
-            if(current_pr >= VALUE_TASKS)
+            if(current_pr >= COUNT_ELEMENTS_TASKS)
                 current_pr = 0;
         }
 

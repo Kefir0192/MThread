@@ -3,8 +3,8 @@
 
 extern struct Mmutex MutexA;
 
-extern uint32_t stack_a[64];
-extern uint32_t stack_b[64];
+extern uint32_t stack_a[128];
+extern uint32_t stack_b[128];
 
 extern uint32_t vA, vB;
 

@@ -7,10 +7,10 @@ uint32_t **pPointer_Save_Context_Stask;
 /// Указатель на переменную которая ссылается на указатель стека для загрузки
 uint32_t **pPointer_Load_Context_Stask;
 
-/// Массив структур для каждой задачи
-struct Task_Element eTask_Element[VALUE_TASKS];
 /// Статусная структура всех задач
 struct Task_Status sTask_Status;
+/// Массив структур для каждой задачи
+struct Task_Element eTask_Element[COUNT_ELEMENTS_TASKS];
 
 //------------------------------------------------------
 // Создание новой задачи

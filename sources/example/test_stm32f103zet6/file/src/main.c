@@ -29,8 +29,8 @@ int main(void)
 
     eMutex_Create(&MutexA);
 
-    eTask_Create(&eTask_Element[0], Thread_A, &stack_a[63], 64, &vA, 0);
-    eTask_Create(&eTask_Element[1], Thread_B, &stack_b[63], 64, &vB, 0);
+    eTask_Create(&eTask_Element[0], Thread_A, &stack_a[127], 64, &vA, 0);
+    eTask_Create(&eTask_Element[1], Thread_B, &stack_b[127], 64, &vB, 0);
 
     eStart_Schedule();
 
