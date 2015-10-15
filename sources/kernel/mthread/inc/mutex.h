@@ -1,12 +1,16 @@
 #ifndef MMUTEX
 #define MMUTEX
 
-// Mutex
+/// Mutex
 typedef void mmutex;
+/// Descriptor Task
+typedef void *descriptorTask;
 
 struct Mmutex {
     /// Блокировка мьютекса
-    mmutex *lock;
+    uint8_t lock;
+    /// Дескриптор потока занявшего мьютекс
+    descriptorTask pTask_Descriptor;
     /// Запрос на блокировку мьютекса
     uint8_t Inquiry;
 };

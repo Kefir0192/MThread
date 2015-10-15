@@ -49,6 +49,10 @@ void port_Inquiry_Interruption(void);
 // Сброс системного таймера
 //------------------------------------------------------
 void port_Reset_SysTick(void);
+
+
+uint8_t port_atomic_exchange(uint8_t *pCurrent, uint8_t updated);
+
 // Начало критической секции обеспечивающая атомарность
 //------------------------------------------------------
 void port_Start_Critical_Section_Mutex(void);

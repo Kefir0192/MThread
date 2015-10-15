@@ -21,37 +21,29 @@ void eMutex_Create(struct Mmutex *pMmutex)
 void eMutex_lock(struct Mmutex *pMmutex)
 {
     while(1) {
-        // Начало критической секции обеспечивающая атомарность
-        port_Start_Critical_Section_Mutex();
-        // Свободный ?
-        if(pMmutex->lock == NULL) {
+        if(port_atomic_exchange(&pMmutex->lock, 1) == 0) {
             // Проверка, кто-то ожидает мьютекс ?
             if(pMmutex->Inquiry == NULL) {
                 // Блокируем мьютекс
                 // Ресурс успешно занят
-                PORT_ATOMIC_SAVE(pMmutex->lock, sTask_Status.pTask_Descriptor);
-                goto exit_critical;
+                pMmutex->pTask_Descriptor = sTask_Status.pTask_Descriptor;
+                return; // Ресурс успешно занят
             }
             pMmutex->Inquiry = NULL;
-            goto continue_critical;
+            port_atomic_exchange(&pMmutex->lock, 0);
+            // Блокируем поток до тех пор пока не захватим мьютекс
+            sTask_Schedule();
+            continue;
         }
 
-        // Занят нами ?
-        if(pMmutex->lock == sTask_Status.pTask_Descriptor) {
-            goto exit_critical;
-        }
+        if(pMmutex->pTask_Descriptor == sTask_Status.pTask_Descriptor)
+            return; //рекурсивный захват
+
 
         pMmutex->Inquiry = 1;
-
-        continue_critical:
-        // Конец критической секции обеспечивающая атомарность
-        port_End_Critical_Section_Mutex();
         // Блокируем поток до тех пор пока не захватим мьютекс
         sTask_Schedule();
     }
-    exit_critical:
-    // Конец критической секции обеспечивающая атомарность
-    port_End_Critical_Section_Mutex();
 }
 
 //------------------------------------------------------
@@ -61,38 +53,25 @@ void eMutex_lock(struct Mmutex *pMmutex)
 //------------------------------------------------------
 uint8_t eMutex_try_lock(struct Mmutex *pMmutex)
 {
-    // Начало критической секции обеспечивающая атомарность
-    port_Start_Critical_Section_Mutex();
-    // Свободный ?
-    if(pMmutex->lock == NULL) {
+    if(port_atomic_exchange(&pMmutex->lock, 1) == 0) {
         // Проверка, кто-то ожидает мьютекс ?
         if(pMmutex->Inquiry == NULL) {
             // Блокируем мьютекс
             // Ресурс успешно занят
-            PORT_ATOMIC_SAVE(pMmutex->lock, sTask_Status.pTask_Descriptor);
-            goto exit_critical_true;
+            pMmutex->pTask_Descriptor = sTask_Status.pTask_Descriptor;
+            return 0; // Ресурс успешно занят
         }
         pMmutex->Inquiry = NULL;
-
-        // Конец критической секции обеспечивающая атомарность
-        port_End_Critical_Section_Mutex();
+        port_atomic_exchange(&pMmutex->lock, 0);
         sTask_Schedule();
         return -1;
     }
 
-    // Занят нами ?
-    if(pMmutex->lock == sTask_Status.pTask_Descriptor) {
-        goto exit_critical_true;
-    }
+    if(pMmutex->pTask_Descriptor == sTask_Status.pTask_Descriptor)
+        return 0; //рекурсивный захват
 
-    // Конец критической секции обеспечивающая атомарность
-    port_End_Critical_Section_Mutex();
+    pMmutex->Inquiry = 1;
     return -1;
-
-    exit_critical_true:
-    // Конец критической секции обеспечивающая атомарность
-    port_End_Critical_Section_Mutex();
-    return 0;
 }
 
 //------------------------------------------------------
@@ -101,8 +80,9 @@ uint8_t eMutex_try_lock(struct Mmutex *pMmutex)
 void eMutex_unlock(struct Mmutex *pMmutex)
 {
     // Можно разблокировать
-    if(pMmutex->lock == sTask_Status.pTask_Descriptor) {
+    if(pMmutex->pTask_Descriptor == sTask_Status.pTask_Descriptor) {
         pMmutex->lock = NULL;
+        port_atomic_exchange(&pMmutex->lock, 0);
         // Ресурс успешно разблокирован
     }
 }
