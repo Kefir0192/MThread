@@ -28,7 +28,7 @@ SIZE       =$(TOOLCHAIN)arm-none-eabi-size
 # ARM_CM0_Plus
 # ARM_CM3
 # ARM_CM4
-MThread_Platform=ARM_CM0
+MThread_Platform=ARM_CM3
 
 # Рабочий каталог
 MThread_p_port   =../../../kernel/portable/

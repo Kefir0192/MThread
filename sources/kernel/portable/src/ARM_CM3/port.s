@@ -4,6 +4,16 @@
 
 
 
+@/*
+@   Актуально для:
+@   ARM_CM0
+@   ARM_CM0_Plus
+@   ARM_CM3
+@   ARM_CM4
+@*/
+
+
+
 .align 2
 .global PendSV_Handler
 .code 16
@@ -49,9 +59,7 @@ PendSV_Handler:
     sub r0, r0, #32
     ldmia r0!, {r4-r7}
 
-    #ldr r0, =Pointer_MSP_Stask
-    #ldr r1, [r0]
-   # msr msp, r1
+
 
     # Выходим с использованием в качестве основного указателя стека PSP
     ldr r0,=0xFFFFFFFD

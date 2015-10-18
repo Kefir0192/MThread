@@ -60,35 +60,17 @@ void port_Reset_SysTick(void)
 }
 
 //------------------------------------------------------
-//
+// Атомарное сохранение
 //------------------------------------------------------
-uint8_t port_atomic_exchange(uint8_t *pCurrent, uint8_t updated)
+uint8_t port_atomic_exchange(uint32_t *pCurrent, uint8_t updated)
 {
     // Запретить прерывания
-    //__disable_irq();
-    uint8_t current = *pCurrent;
+    __disable_irq();
+    uint32_t current = *pCurrent;
 
     *pCurrent = updated;
 
     // Разрешить прерывания
-    //__enable_irq();
-    return current;
-}
-
-//------------------------------------------------------
-// Начало критической секции обеспечивающая атомарность
-//------------------------------------------------------
-inline void port_Start_Critical_Section_Mutex(void)
-{
-    // Запретить прерывания
-    __disable_irq();
-}
-
-//------------------------------------------------------
-// Конец критической секции обеспечивающая атомарность
-//------------------------------------------------------
-inline void port_End_Critical_Section_Mutex(void)
-{
-    // Разрешить прерывания
     __enable_irq();
+    return current;
 }

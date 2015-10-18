@@ -19,9 +19,6 @@
 // Делитель системного таймера
 //------------------------------------------------------
 #define PORT_DIVIDER_SYSTEM_TIMER       80000
-// Атомарное сохранение
-//------------------------------------------------------
-#define PORT_ATOMIC_SAVE(a, b)          { a = b; }
 // Прерывание системного таймера
 //------------------------------------------------------
 #define PORT_SYS_TICK_HANDLER   SysTick_Handler
@@ -50,16 +47,9 @@ void port_Inquiry_Interruption(void);
 //------------------------------------------------------
 void port_Reset_SysTick(void);
 
-
-uint8_t port_atomic_exchange(uint8_t *pCurrent, uint8_t updated);
-
-// Начало критической секции обеспечивающая атомарность
+// Атомарное сохранение
 //------------------------------------------------------
-void port_Start_Critical_Section_Mutex(void);
-// Конец критической секции обеспечивающая атомарность
-//------------------------------------------------------
-void port_End_Critical_Section_Mutex(void);
-
+uint8_t port_atomic_exchange(uint32_t *pCurrent, uint8_t updated);
 
 
 #endif // MTHREAD_PORT

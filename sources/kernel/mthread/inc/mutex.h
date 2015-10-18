@@ -8,7 +8,7 @@ typedef void *descriptorTask;
 
 struct Mmutex {
     /// Блокировка мьютекса
-    uint8_t lock;
+    uint32_t lock;
     /// Дескриптор потока занявшего мьютекс
     descriptorTask pTask_Descriptor;
     /// Запрос на блокировку мьютекса
