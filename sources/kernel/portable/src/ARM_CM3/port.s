@@ -64,6 +64,8 @@ PendSV_Handler:
     bx r0
 .size PendSV_Handler, .-PendSV_Handler
 
+
+
 #void atomic_exchange(uint32_t *obj, uint32_t val);
 .align  2;
 .global atomic_exchange
