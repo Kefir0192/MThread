@@ -50,7 +50,8 @@ void port_Reset_SysTick(void);
 // Атомарное сохранение
 //------------------------------------------------------
 uint8_t port_atomic_exchange(uint32_t *pCurrent, uint8_t updated);
-
+//------------------------------------------------------
+void atomic_exchange(uint32_t *obj, uint32_t val);
 
 #endif // MTHREAD_PORT
 
