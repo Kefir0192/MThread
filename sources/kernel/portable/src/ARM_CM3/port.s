@@ -57,7 +57,8 @@ PendSV_Handler:
     sub r0, r0, #32
     ldmia r0!, {r4-r7}
 
-
+    #clrex
+    clrex
 
     # Выходим с использованием в качестве основного указателя стека PSP
     ldr r0,=0xFFFFFFFD
