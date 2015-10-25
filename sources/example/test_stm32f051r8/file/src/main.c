@@ -70,16 +70,16 @@ void Thread_B(void *pVoid)
     while(1) {
         eMutex_lock(&MutexA);
 
-        Delay(0x10000);
+        Delay(0x1000);
         GPIOC->ODR ^= GPIO_ODR_9;
 
-        Delay(0x10000);
+        Delay(0x1000);
         GPIOC->ODR ^= GPIO_ODR_9;
 
-        Delay(0x10000);
+        Delay(0x1000);
         GPIOC->ODR ^= GPIO_ODR_9;
 
-        Delay(0x10000);
+        Delay(0x1000);
         GPIOC->ODR ^= GPIO_ODR_9;
 
         eMutex_unlock(&MutexA);

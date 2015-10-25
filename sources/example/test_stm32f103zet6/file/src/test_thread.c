@@ -17,24 +17,14 @@ uint32_t vA = 5, vB;
 void Thread_A(void *pVoid)
 {
     while(1) {
-        eMutex_lock(&MutexA);
+        //eMutex_lock(&MutexA);
 
-        GPIOE->ODR |= GPIO_ODR_ODR0;
+        GPIOE->ODR ^= GPIO_ODR_ODR0;
+        Delay(0x1000);
+        GPIOE->ODR ^= GPIO_ODR_ODR0;
+        Delay(0x1000);
 
-        Delay(0x10000);
-        Delay(0x10000);
-        //Delay(0x10000);
-        //Delay(0x10000);
-
-
-        GPIOE->ODR &= GPIO_ODR_ODR0;
-
-        Delay(0x10000);
-        Delay(0x10000);
-        //Delay(0x10000);
-        //Delay(0x10000);
-
-        eMutex_unlock(&MutexA);
+        //eMutex_unlock(&MutexA);
     }
 }
 
@@ -43,13 +33,17 @@ void Thread_B(void *pVoid)
     while(1) {
         eMutex_lock(&MutexA);
 
-        GPIOE->ODR |= GPIO_ODR_ODR2;
-
+        GPIOE->ODR ^= GPIO_ODR_ODR2;
         Delay(0x10000);
         Delay(0x10000);
-
-        GPIOE->ODR &= GPIO_ODR_ODR2;
-
+        Delay(0x10000);
+        Delay(0x10000);
+        Delay(0x10000);
+        Delay(0x10000);
+        GPIOE->ODR ^= GPIO_ODR_ODR2;
+        Delay(0x10000);
+        Delay(0x10000);
+        Delay(0x10000);
         Delay(0x10000);
         Delay(0x10000);
 
