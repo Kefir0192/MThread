@@ -64,10 +64,5 @@ void port_Reset_SysTick(void)
 //------------------------------------------------------
 uint8_t port_atomic_exchange(uint32_t *pCurrent, uint8_t updated)
 {
-    uint32_t current = *pCurrent;
-
-    atomic_exchange(pCurrent, updated);
-
-    return current;
-
+    return atomic_exchange(pCurrent, updated);
 }

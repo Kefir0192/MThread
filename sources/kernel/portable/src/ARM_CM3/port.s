@@ -67,16 +67,16 @@ PendSV_Handler:
 
 
 
-#void atomic_exchange(uint32_t *obj, uint32_t val);
+#uint8_t atomic_exchange(uint32_t *obj, uint32_t val);
 .align  2;
 .global atomic_exchange
 .type   atomic_exchange, %function
 atomic_exchange:
-
+    mov r3, r0
 .try_exchange:
-    ldrex r2, [r0]
-    strex r3, r1, [r0]
-    cmp r3, #0
+    ldrex r0, [r3]
+    strex r2, r1, [r3]
+    cmp r2, #0
     bne .try_exchange
     bx      lr
 .size   atomic_exchange, .-atomic_exchange
