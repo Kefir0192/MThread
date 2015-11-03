@@ -23,6 +23,7 @@ void Thread_A(void *pVoid)
         Delay(0x10000);
         Delay(0x10000);
         Delay(0x10000);
+
         GPIOE->ODR ^= GPIO_ODR_ODR0;
         Delay(0x10000);
         Delay(0x10000);
@@ -41,6 +42,7 @@ void Thread_B(void *pVoid)
         Delay(0x10000);
         Delay(0x10000);
         Delay(0x10000);
+
         GPIOE->ODR ^= GPIO_ODR_ODR2;
         Delay(0x10000);
         Delay(0x10000);
