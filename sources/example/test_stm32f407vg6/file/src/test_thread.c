@@ -19,12 +19,12 @@ void Thread_A(void *pVoid)
     while(1) {
         eMutex_lock(&MutexA);
 
-        GPIOD->ODR ^= LED_GREEN;
+        GPIOD->ODR ^= LED_BLUE;
         Delay(0x10000);
         Delay(0x10000);
         Delay(0x10000);
 
-        GPIOD->ODR ^= LED_GREEN;
+        GPIOD->ODR ^= LED_BLUE;
         Delay(0x10000);
         Delay(0x10000);
         Delay(0x10000);
@@ -38,12 +38,12 @@ void Thread_B(void *pVoid)
     while(1) {
         eMutex_lock(&MutexA);
 
-        GPIOD->ODR ^= LED_BLUE;
+        GPIOD->ODR ^= LED_ORANGE;
         Delay(0x10000);
         Delay(0x10000);
         Delay(0x10000);
 
-        GPIOD->ODR ^= LED_BLUE;
+        GPIOD->ODR ^= LED_ORANGE;
         Delay(0x10000);
         Delay(0x10000);
         Delay(0x10000);
