@@ -4,6 +4,14 @@
 
 
 
+@/*
+@   Актуально для:
+@   ARM_CM3
+@   ARM_CM4
+@*/
+
+
+#void PendSV_Handler(void);
 .align 2
 .global PendSV_Handler
 .code 16
@@ -49,11 +57,26 @@ PendSV_Handler:
     sub r0, r0, #32
     ldmia r0!, {r4-r7}
 
-    #ldr r0, =Pointer_MSP_Stask
-    #ldr r1, [r0]
-   # msr msp, r1
+    #clrex
+    clrex
 
     # Выходим с использованием в качестве основного указателя стека PSP
     ldr r0,=0xFFFFFFFD
     bx r0
 .size PendSV_Handler, .-PendSV_Handler
+
+
+
+#uint8_t atomic_exchange(uint32_t *obj, uint32_t val);
+.align  2;
+.global atomic_exchange
+.type   atomic_exchange, %function
+atomic_exchange:
+    mov r3, r0
+.try_exchange:
+    ldrex r0, [r3]
+    strex r2, r1, [r3]
+    cmp r2, #0
+    bne .try_exchange
+    bx      lr
+.size   atomic_exchange, .-atomic_exchange
